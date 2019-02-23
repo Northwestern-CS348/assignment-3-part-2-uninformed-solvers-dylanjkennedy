@@ -1,19 +1,39 @@
 """
 For a game with 8 tiles of blocks on a 3x3 grid,
-write down the Facts and Rules to model the game state 
+write down the Facts and Rules to model the game state
 shown as the follows:
-
- y\\x   pos1     pos2     pos3
-     ----------------------------
-pos1 | tile5  | tile4  | empty  |
-     ----------------------------
-pos2 | tile6  | tile1  | tile8  |
-     ----------------------------
-pos3 | tile7  | tile3  | tile2  |
-     ----------------------------
-
-Example: 
+Example:
 fact: (pred obj1 obj2)
 rule: ((pred obj1 obj2) (pred obj2 obj3)) -> (pred obj1 obj3)
 
 """
+fact: (inst tile1 tile)
+fact: (inst tile2 tile)
+fact: (inst tile3 tile)
+fact: (inst tile4 tile)
+fact: (inst tile5 tile)
+fact: (inst tile6 tile)
+fact: (inst tile7 tile)
+fact: (inst tile8 tile)
+
+fact: (pos tile1 pos2 pos2)
+fact: (pos tile2 pos3 pos3)
+fact: (pos tile3 pos2 pos3)
+fact: (pos tile4 pos2 pos1)
+fact: (pos tile5 pos1 pos1)
+fact: (pos tile6 pos1 pos2)
+fact: (pos tile7 pos1 pos3)
+fact: (pos tile8 pos3 pos2)
+fact: (pos empty pos3 pos1)
+
+"""
+rule: ((adj ?a ?b) -> (adj ?b ?a))
+rule: ((pos ?a ?x ?y)(pos ?b pos2 ?y) -> (adj ?a ?b)
+rule: ((pos ?a ?x ?y)(pos ?b ?x pos2) -> (adj ?a ?b)
+rule: ((adj ?a empty)(pos ?a ?u ?v)(pos empty ?x ?y) -> (movable ?a ?u ?v ?x ?y)
+"""
+
+rule: ((inst ?a tile) (pos ?a ?x ?y) (pos empty ?x pos2) -> (movable ?a ?x ?y ?x pos2)
+rule: ((inst ?a tile) (pos ?a ?x ?y) (pos empty pos2 ?y) -> (movable ?a ?x ?y pos2 ?y)
+rule: ((inst ?a tile) (pos ?a pos2 ?y) (pos empty ?x ?y) -> (movable ?a pos2 ?y ?x ?y)
+rule: ((inst ?a tile) (pos ?a ?x pos2) (pos empty ?x ?y) -> (movable ?a ?x pos2 ?x ?y)
